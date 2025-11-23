@@ -1,7 +1,8 @@
-import sys
 import random
+import sys
+from typing import List, Set, Tuple
+
 import pygame
-from typing import List, Tuple, Set
 
 # Configuration
 WIDTH, HEIGHT = 600, 400
@@ -67,7 +68,8 @@ class Snake:
         # Draw head
         for i, (cx, cy) in enumerate(self.positions):
             color = SNAKE_HEAD_COLOR if i == 0 else SNAKE_BODY_COLOR
-            rect = pygame.Rect(cx * CELL_SIZE, cy * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            rect = pygame.Rect(cx * CELL_SIZE, cy *
+                               CELL_SIZE, CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(surface, color, rect, border_radius=4)
 
 
@@ -78,7 +80,8 @@ class Food:
     def _random_empty_cell(self, snake: Snake) -> Tuple[int, int]:
         occupied = snake.occupies()
         # Efficient random placement by sampling from the set of free cells
-        all_cells = {(x, y) for x in range(GRID_COLS) for y in range(GRID_ROWS)}
+        all_cells = {(x, y) for x in range(GRID_COLS)
+                     for y in range(GRID_ROWS)}
         free_cells = list(all_cells - occupied)
         if not free_cells:
             return (-1, -1)  # fallback (should indicate win state)
@@ -91,7 +94,8 @@ class Food:
         if self.position == (-1, -1):
             return
         cx, cy = self.position
-        rect = pygame.Rect(cx * CELL_SIZE, cy * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+        rect = pygame.Rect(cx * CELL_SIZE, cy * CELL_SIZE,
+                           CELL_SIZE, CELL_SIZE)
         pygame.draw.rect(surface, FOOD_COLOR, rect, border_radius=4)
 
 
@@ -108,7 +112,13 @@ def within_bounds(cell: Tuple[int, int]) -> bool:
     return 0 <= x < GRID_COLS and 0 <= y < GRID_ROWS
 
 
-def render_text(surface: pygame.Surface, text: str, pos: Tuple[int, int], font: pygame.font.Font, color=TEXT_COLOR):
+def render_text(
+    surface: pygame.Surface,
+    text: str,
+    pos: Tuple[int, int],
+    font: pygame.font.Font,
+    color=TEXT_COLOR,
+):
     img = font.render(text, True, color)
     surface.blit(img, pos)
 
@@ -186,8 +196,10 @@ def main():
             msg2 = "Press R to Restart | Esc to Quit"
             text1 = big_font.render(msg1, True, TEXT_COLOR)
             text2 = font.render(msg2, True, TEXT_COLOR)
-            screen.blit(text1, ((WIDTH - text1.get_width()) // 2, HEIGHT // 2 - 40))
-            screen.blit(text2, ((WIDTH - text2.get_width()) // 2, HEIGHT // 2 + 5))
+            screen.blit(
+                text1, ((WIDTH - text1.get_width()) // 2, HEIGHT // 2 - 40))
+            screen.blit(
+                text2, ((WIDTH - text2.get_width()) // 2, HEIGHT // 2 + 5))
 
         pygame.display.flip()
         clock.tick(speed)
